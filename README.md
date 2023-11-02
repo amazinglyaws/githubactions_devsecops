@@ -70,17 +70,19 @@ docker ps
   sudo apt-get update
   sudo apt-get install trivy -y
 ```
-- now given execute permission on the file and run trivy.sh
+
+![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/7b44dc04-d061-4719-acff-8493fb9993ad)
+
+- now given execute permission to trivy.sh and execute it. This will install Trivy on the EC2 instance
 ```
   sudo chmod +x trivy.sh
   sudo ./trivy.sh
 ```
 
--check trivy version
+- to check trivy version, run this command
 ```
   trivy --version
 ```
-![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/7b44dc04-d061-4719-acff-8493fb9993ad)
 
 #### Step 3A:  Integrate SonarQube with GitHub Actions
 - Go to SonarQube dashboard <EC2 public ip>:9000
