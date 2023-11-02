@@ -83,7 +83,7 @@ docker ps
 ![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/7b44dc04-d061-4719-acff-8493fb9993ad)
 
 #### Step 3A:  Integrate SonarQube with GitHub Actions
-- go to SonarQube dashboard <EC2 public ip>:9000
+- Go to SonarQube dashboard <EC2 public ip>:9000
 - On SonarQube dashboard, select 'Manually'
 - Provide project name, key and branch name and click Setup
 - Select 'With GitHub actions'
@@ -114,11 +114,37 @@ docker ps
 - Now we need to create the pipeline workflow. To do that, click 'Add file' > Create new file' again
 - Create the file name as shown .github/workflows/build.yaml -- you can use any name for the .yml file
 - Now copy the content of the build.yml file from SonarQube dashboard and paste it in the newly created GitHub file 'build.yml'
+  ```
+    name: Build,Analyze,scan
+    
+    on:
+      push:
+        branches:
+          - main
+    
+    
+    jobs:
+      build-analyze-scan:
+        name: Build
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v2
+            with:
+              fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+    
+          - name: Build and analyze with SonarQube
+            uses: sonarsource/sonarqube-scan-action@master
+            env:
+              SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+              SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+
+  ```
 - Click 'Commit changes' to create the pipeline workflow
-- The workflow will be started automatically
+- Click 'Actions' and it should trigger the workflow automatically
 - Let's click on 'Build' and see what happens. If everything goes well, the build should complete successfully
 - Now go back to SonarQube dashboard and click on 'Project' and select the project 'Netflix'
-- You can see the code scan summary. To view the full report, click on 'issues'
+- You should see the a Summary of the SonarQube code scan. To view the full report, click on 'issues'
 
 #### Step 3C: Add the trivy file scan in the pipeline workflow file
 - Add the following code to the Build.yml file in GitHub. This will perform the file scanning. Click 'Commit changes'
@@ -130,12 +156,48 @@ docker ps
   ```
 -  Go back to 'Actions' and you should see the build has started
 -  Analyse the build and see if the trivy file scan was completed successfully - this is another security check
-- 
-#### Step 4A: Build Docker image and push to DockerHub
+  
+#### Step 4: Create a TMDB API Key (to access the Netflix app)  
+- Go to this url https://www.themoviedb.org/?language=en-CA and create a new account
+- Now click on the profile name (on top-right) and click 'Settings'
+- Click 'API' on the left pane
+- Click on 'Create' and select 'Developer'
+- 'Accept' the terms and conditions and provide the basic details.
+- Click 'Submit' to save changes and generate the API Key. Keep this key for later use (Step 5B)
 
-#### Step 4B: Create a TMDB API Key (to access the Netflix app)  
+#### Step 5A: Setup the DockerHub Token 
+- Login to your Dockerhub account (if you don't have, create one)
+- Click profile name > Account Settings > Security and click 'New Access Token'
+- Enter a name for the Access Token Description, keep the Access permissions as 'Read,Write,Delete' and click 'Generate'
+- Copy and past the generated token into a text file. Click 'Copy and Close'
+- Now go to GitHub and click 'Settings'. On the left pane, select 'Secrets and variables' > Actions
+- Click 'New repository secret' and create the first secret as shown by clicking 'Add secret'
+  Name: DOCKERHUB_USERNAME 
+  Secret: enter your dockerhub username
+- Create one more secret as shown
+  Name: DOCKERHUB_TOKEN
+  Secret: Copy and paste the GitHub token from the text file
+- Click 'Add secret'
 
-#### Step 5:  Create a self-hosted runner in EC2  
-#### Step 5B: Setup the GitHub Actions pipeline to run the Netflix container  
-#### Step 6:  Delete the EC2 instance (if not free tier to incur any AWScharges)  
+#### Step 5B: Setup the dockerbuild commands in the Build.yml pipeline workflow
+- Do not forget to add the TMDB API Key (that was generated in Step 4) to the _docker build_ command 
+  NOTE : do not forget to change to your dockerhub username
+```
+  - name: Docker build and push
+    run: |
+      #commands to build and push docker images
+      docker build --build-arg TMDB_V3_API_KEY=<USE YOUR API KEY> -t netflix .
+      docker tag netflix sunilsnair1976/netflix:latest
+      docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+      docker push sunilsnair1976/netflix:latest  
+    env:
+      DOCKER_CLI_ACI: 1
+```
+- Click on 'Actions' again and analyze the build
+- If the build is successful, the docker image should be created
+- Go to Dockerhub and check if the latest image is available
+  
+#### Step 6A: Create a self-hosted runner in EC2  
+#### Step 6B: Setup the GitHub Actions pipeline to run the Netflix container  
+#### Step 7:  Delete the EC2 instance (if not free tier to incur any AWScharges)  
 
