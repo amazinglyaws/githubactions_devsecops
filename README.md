@@ -266,9 +266,12 @@ you should be logged into the Ubuntu EC2 server
     ```
      <EC2-instance public ip>:8081>
     ```
-      - You will see the netflix app running!
-      - Deployment is completed!! Congratulations
-      - Full Build.yml file
+  - You will see the netflix app running!
+  ![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/af6f4c44-cbc2-44b2-be7f-671fed2942a5)
+  
+  - Deployment is completed!! Congratulations
+
+  - Complete Build.yml file
         ```
           name: Build,Analyze,scan
           
