@@ -224,7 +224,7 @@ you should be logged into the Ubuntu EC2 server
 - Go to Dockerhub and check if the latest image is available
   
 #### Step 6A: Create a self-hosted runner in EC2  
-- Go to GitHub abd ckick on Settings > Actions > Runners
+- Go to GitHub and ckick on Settings > Actions > Runners
 - Click on 'New self-hosted runner'
 - Select Linux and x64 Architecture
 - Copy the below command to add a self-hosted runner
@@ -235,6 +235,8 @@ you should be logged into the Ubuntu EC2 server
    ./run.sh
   ```
 - You should see a message 'Listening for Jobs' if the runner is successfull
+ ![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/fc0f6ad9-7144-4a18-af68-6176c78784a0)
+ 
 #### Step 6B: Setup the GitHub Actions pipeline to run the Netflix container  
 - Add this deployment section to the Build.yml and click 'Commit changes'
   ```
