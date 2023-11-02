@@ -22,19 +22,21 @@ you should be logged into the Ubuntu EC2 server
 #### Step 2A: Install Docker and run SonarQube container inside EC2  
 
 - install docker and grant permission for 'ubuntu' user to access docker by adding it to "docker" group
+  ```
     sudo apt-get update
     sudo apt install docker.io -y
     sudo usermod -aG docker ubuntu
     newgrp docker
     sudo chmod 777 /var/run/docker.sock
-
+  ```
 and check the docker installed version using command docker --version
 
 ![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/cc54d0ec-03cc-448f-9f86-a9c409fa4c37)
 
 - now create the SonarQube docker container and add port 9000 in the security group
+  ```
     docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
-
+  ```
 ![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/11455b29-3200-4c0f-96ec-91f004cdad6a)
 
 - now copy the public IP address of the EC2 instance and past in the browser address bar and hit enter
