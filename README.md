@@ -43,7 +43,7 @@ you should be logged into the Ubuntu EC2 server
   ```
 ![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/11455b29-3200-4c0f-96ec-91f004cdad6a)
 
-- now copy the public IP address of the EC2 instance and past in the browser address bar and hit enter
+- now copy the public IP address of the EC2 instance and paste in the browser address bar and hit enter
     <ec2-public-ip>:9000
   
 ![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/6405d0a7-428d-4bc8-89cb-af719e8cae51)
@@ -87,7 +87,7 @@ you should be logged into the Ubuntu EC2 server
 #### Step 3A:  Integrate SonarQube with GitHub Actions
 - Go to SonarQube dashboard <EC2 public ip>:9000
 - On SonarQube dashboard, select 'Manually'
-- Provide project name, key and branch name and click Setup
+- Provide project name, key and branch name and click 'Setup'
 - Select 'With GitHub actions'
 - Follow the steps in the Overview section to start the integration with GitHub repository
 - Open your GitHub account and select your repository. In my case it is 'githubactions_devsecops'
