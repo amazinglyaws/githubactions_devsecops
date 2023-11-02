@@ -236,7 +236,10 @@ you should be logged into the Ubuntu EC2 server
   ```
 - You should see a message 'Listening for Jobs' if the runner is successfull
  ![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/fc0f6ad9-7144-4a18-af68-6176c78784a0)
- 
+
+ - On the GitHub page, click Actions and you should be able to see the new self-hosted runner'aws-netflix' we just created
+  ![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/3ec3d4ef-7b5c-4ecb-acdd-0d3c1f69a8a2)
+  
 #### Step 6B: Setup the GitHub Actions pipeline to run the Netflix container  
 - Add this deployment section to the Build.yml and click 'Commit changes'
   ```
