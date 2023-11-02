@@ -8,17 +8,34 @@ Tools used : AWS EC2, SonarQube, Trivy, Docker, GitHub and GitHub Actions
 
 ## Steps
 #### Step 1:  Launch and EC2 instance (T2 micro Ubuntu Amazon AMI) 
-![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/66eac620-9953-49bc-ab9d-c925f54cc235)
+![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/d8e69188-7686-4c8d-a072-6dab93839f89)
 
 and connect using EC2 Instance Connect (without using SSH)
-![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/372f737a-b47b-41bb-95eb-6aac5f2a1d60)
+![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/0c5623ff-d523-48ea-b972-eed45ce66fa4)
 
 you should be logged in to the Ubuntu EC2 server
 ![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/611bd636-628e-4e39-a449-0daa925eeed9)
 
 #### Step 2A: Install Docker and run SonarQube container inside EC2  
 
-###### test
+- install docker and grant permission for 'ubuntu' user to access docker by adding it to "docker" group
+    sudo apt-get update
+    sudo apt install docker.io -y
+    sudo usermod -aG docker ubuntu
+    newgrp docker
+    sudo chmod 777 /var/run/docker.sock
+
+and check the docker installed version using command docker --version
+- now create the SonarQube docker container and add port 9000 in the security group
+    docker run -d --name sonar -p 9000:9000 sonarqube:lts-community
+
+- now copy the public IP address of the EC2 instance and past in the browser address bar and hit enter
+    <ec2-public-ip>:9000
+
+- provide the SonarQube login id and password and update the password
+- SonarQube dashboard will be displayed
+
+###### - Install docker and give permissions 
 #### Step 2B: Integrate SonarQube with GitHub Actions for automated code quality checks  
 #### Step 3A: Scan code files using Trivy   
 #### Step 4A: Build Docker image and push to DockerHub  
