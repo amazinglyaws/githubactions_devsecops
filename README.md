@@ -216,6 +216,101 @@ you should be logged into the Ubuntu EC2 server
 - Go to Dockerhub and check if the latest image is available
   
 #### Step 6A: Create a self-hosted runner in EC2  
+- Go to GitHub abd ckick on Settings > Actions > Runners
+- Click on 'New self-hosted runner'
+- Select Linux and x64 Architecture
+- Copy the below command to add a self-hosted runner
+- Now connect to your EC2 instance using Instance Connect or SSH
+- Paste the copied commands one by one
+- To start the runner type
+  ```
+   ./run.sh
+  ```
+- You should see a message 'Listening for Jobs' if the runner is successfull
 #### Step 6B: Setup the GitHub Actions pipeline to run the Netflix container  
-#### Step 7:  Delete the EC2 instance (if not free tier to incur any AWScharges)  
+- Add this deployment section to the Build.yml and click 'Commit changes'
+  ```
+    deploy:    
+      needs: build-analyze-scan  
+      runs-on: [aws-netflix]  
+      steps:
+        - name: Pull the docker image
+          run: docker pull sunilsnair1976/netflix:latest
+        - name: Trivy image scan
+          run: trivy image sunilsnair1976/netflix:latest
+        - name: Run the container netflix
+          run: docker run -d --name netflix -p 8081:80 sunilsnair1976/netflix:latest
+  ```
+  - Now click on 'Actions'. You can see two different Jobs - 'Build and Push Docker Image' and 'deploy'
+  - Click on 'Build and Push docker image' and wait for the job to complete
+  - Now click on 'Summary' to go back to previous page and click 'deploy'
+  - You can see the steps where the docker image is pulled from the repo and scanned by Trivy for vulnerabilities
+  - This 'deploy' is running on your EC2 instance using the self-hostd runner
+  - Once the deploy job is completed, you should see this successful message
+  - If both the jobs are successful, you should see oth of them with a green tick symbol against their name
+  - Now copy your EC2 instance public ip and enter as follows in the browser and hit enter
+    ```
+     <EC2-instance public ip>:8081>
+    ```
+      - You will see the netflix app running!
+      - Deployment is completed!! Congratulations
+      - Full Build.yml file
+        ```
+          name: Build,Analyze,scan
+          
+          on:
+            push:
+              branches:
+                - main
+          
+          jobs:
+            build-analyze-scan:
+              name: Build
+              runs-on: ubuntu-latest
+              steps:
+                - name: Checkout code
+                  uses: actions/checkout@v2
+                  with:
+                    fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          
+                - name: Build and analyze with SonarQube
+                  uses: sonarsource/sonarqube-scan-action@master
+                  env:
+                    SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                    SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          
+                - name: install trivy
+                  run: |
+                     #install trivy
+                     #sudo apt-get install wget apt-transport-https gnupg lsb-release -y
+                     #wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+                     #echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+                     #sudo apt-get update
+                     #sudo apt-get install trivy -y
+                     #scanning files
+                     trivy fs .
+          
+                - name: Docker build and push
+                  run: |
+                    #run commands to build and push docker images
+                    docker build --build-arg TMDB_V3_API_KEY=ea34e7857cff3d57b70166e938d9cbf9 -t netflix .
+                    docker tag netflix sunilsnair1976/netflix:latest
+                    docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+                    docker push sunilsnair1976/netflix:latest  
+                  env:
+                    DOCKER_CLI_ACI: 1     
+          
+            deploy:    
+              needs: build-analyze-scan  
+              runs-on: [aws-netflix]  
+              steps:
+                - name: Pull the docker image
+                  run: docker pull sunilsnair1976y/netflix:latest
+                - name: Trivy image scan
+                  run: trivy image sunilsnair1976/netflix:latest
+                - name: Run the container netflix
+                  run: docker run -d --name netflix -p 8081:80 sunilsnair1976/netflix:latest
+        ```
+#### Step 7:  Delete the EC2 instance 
+- Go to AWS console and delete the EC2 instance to avoid any billing charges
 
