@@ -218,6 +218,7 @@ you should be logged into the Ubuntu EC2 server
     env:
       DOCKER_CLI_ACI: 1
 ```
+- Commit the changes
 - Click on 'Actions' again and analyze the build
 - If the build is successful, the docker image should be created
 - Go to Dockerhub and check if the latest image is available
