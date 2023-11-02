@@ -73,7 +73,7 @@ docker ps
 
 ![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/7b44dc04-d061-4719-acff-8493fb9993ad)
 
-- now given execute permission to trivy.sh and execute it. This will install Trivy on the EC2 instance
+- now give execute permission to trivy.sh and execute it. This will install Trivy on the EC2 instance
 ```
   sudo chmod +x trivy.sh
   sudo ./trivy.sh
@@ -92,19 +92,19 @@ docker ps
 - Follow the steps in the Overview section to start the integration with GitHub repository
 - Open your GitHub account and select your repository. In my case it is 'githubactions_devsecops'
 - Click on 'Setting's and on the left pane under 'Secrets and variables' > 'Actions'
-- Click 'New rpository secret'
+- Click 'New repository secret'
 - Now go back to your SonarQube dashboard. Copy SONAR_TOKEN and click 'Generate Token'
 - Click 'Generate' to generate the token
 - Copy this token and click 'Continue'
 - Go back to GitHub and create this secret
-  Name: SONAR_TOKEN
-  Secret: paste your token
-  Click 'Add secret'
+   Name: SONAR_TOKEN
+   Secret: paste your token
+- Click 'Add secret'
 - Go back to SonarQube dasbhoard
 - Copy the SONAR_HOST_URL and the URL as shown
 - Go back to GitHub and create this secret
-  Name: SONAR_HOST_URL
-  Secret: <URL>
+   Name: SONAR_HOST_URL
+   Secret: <URL>
 - Two SonarQube secrets are added in GitHub to complete the integration with GitHub. Click 'Continue'
 
 #### Step 3B:  Create the GitHub Actions Pipeline workflow
@@ -174,11 +174,11 @@ docker ps
 - Copy and past the generated token into a text file. Click 'Copy and Close'
 - Now go to GitHub and click 'Settings'. On the left pane, select 'Secrets and variables' > Actions
 - Click 'New repository secret' and create the first secret as shown by clicking 'Add secret'
-  Name: DOCKERHUB_USERNAME 
-  Secret: enter your dockerhub username
+   Name: DOCKERHUB_USERNAME 
+   Secret: enter your dockerhub username
 - Create one more secret as shown
-  Name: DOCKERHUB_TOKEN
-  Secret: Copy and paste the GitHub token from the text file
+   Name: DOCKERHUB_TOKEN
+   Secret: Copy and paste the GitHub token from the text file
 - Click 'Add secret'
 
 #### Step 5B: Setup the dockerbuild commands in the Build.yml pipeline workflow
