@@ -14,10 +14,11 @@ and connect using EC2 Instance Connect (without using SSH)
 ![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/372f737a-b47b-41bb-95eb-6aac5f2a1d60)
 
 you should be logged in to the Ubuntu EC2 server
-![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/79fb29a3-6b90-45d1-85a7-3a48978b9704)
-
+![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/611bd636-628e-4e39-a449-0daa925eeed9)
 
 #### Step 2A: Install Docker and run SonarQube container inside EC2  
+
+###### test
 #### Step 2B: Integrate SonarQube with GitHub Actions for automated code quality checks  
 #### Step 3A: Scan code files using Trivy   
 #### Step 4A: Build Docker image and push to DockerHub  
