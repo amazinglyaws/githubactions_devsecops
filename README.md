@@ -161,12 +161,19 @@ you should be logged into the Ubuntu EC2 server
 - You should see the a Summary of the SonarQube code scan. To view the full report, click on 'issues'
 
 #### Step 3C: Add the trivy file scan in the pipeline workflow file
-- Add the following code to the Build.yml file in GitHub. This will perform the file scanning. Click 'Commit changes'
+- Add the following code to the Build.yml file in GitHub. This will install Trivy and scan the files for any vulnerabilities. Click 'Commit changes'
   ```
-  - name: run trivy filescan
-    run: |
-      # command to scan the files
-      trivy fs .
+    - name: install trivy
+      run: |
+        #install trivy
+        sudo apt-get install wget apt-transport-https gnupg lsb-release -y
+        wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+        echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+        sudo apt-get update
+        sudo apt-get install trivy -y
+        #command to scan files
+        trivy fs .
+
   ```
 -  Go back to 'Actions' and you should see the build has started
 -  Analyse the build and see if the trivy file scan was completed successfully - this is another security check
