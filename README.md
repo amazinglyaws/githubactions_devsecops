@@ -25,11 +25,11 @@ you should be logged into the Ubuntu EC2 server
   ```
     sudo apt-get update
     sudo apt install docker.io -y
-    sudo usermod -aG docker ubuntu
+    sudo usermod -aG docker <user> -- my EC2 user is 'ubuntu'
     newgrp docker
     sudo chmod 777 /var/run/docker.sock
   ```
-and check the docker installed version using command 
+- and check the docker installed version using command 
 
 ```
 docker ps
@@ -56,13 +56,86 @@ docker ps
   
 ![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/3e52d74a-e51c-4d2f-96b4-1fcad9710a3f)
 
-###### - Install docker and give permissions 
-#### Step 2B: Integrate SonarQube with GitHub Actions for automated code quality checks  
-#### Step 3A: Scan code files using Trivy   
-#### Step 4A: Build Docker image and push to DockerHub  
+#### Step 2B: Install Trivy for container vulnerability scanning
+
+- On EC2 server, create a trivy.sh file 
+```
+ sudo vi trivy.sh
+```
+- and paste the contents inside it. Save the file using <esc>:wq!
+```
+  sudo apt-get install wget apt-transport-https gnupg lsb-release -y
+  wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
+  echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
+  sudo apt-get update
+  sudo apt-get install trivy -y
+```
+- now given execute permission on the file and run trivy.sh
+```
+  sudo chmod +x trivy.sh
+  sudo ./trivy.sh
+```
+
+-check trivy version
+```
+  trivy --version
+```
+![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/7b44dc04-d061-4719-acff-8493fb9993ad)
+
+#### Step 3A:  Integrate SonarQube with GitHub Actions
+- go to SonarQube dashboard <EC2 public ip>:9000
+- On SonarQube dashboard, select 'Manually'
+- Provide project name, key and branch name and click Setup
+- Select 'With GitHub actions'
+- Follow the steps in the Overview section to start the integration with GitHub repository
+- Open your GitHub account and select your repository. In my case it is 'githubactions_devsecops'
+- Click on 'Setting's and on the left pane under 'Secrets and variables' > 'Actions'
+- Click 'New rpository secret'
+- Now go back to your SonarQube dashboard. Copy SONAR_TOKEN and click 'Generate Token'
+- Click 'Generate' to generate the token
+- Copy this token and click 'Continue'
+- Go back to GitHub and create this secret
+  Name: SONAR_TOKEN
+  Secret: paste your token
+  Click 'Add secret'
+- Go back to SonarQube dasbhoard
+- Copy the SONAR_HOST_URL and the URL as shown
+- Go back to GitHub and create this secret
+  Name: SONAR_HOST_URL
+  Secret: <URL>
+- Two SonarQube secrets are added in GitHub to complete the integration with GitHub. Click 'Continue'
+
+#### Step 3B:  Create the GitHub Actions Pipeline workflow
+- Select 'Other' as the Netflix project is built using React JS
+- It generates a sonar properties file and a build.yml file - this is the pipeline workflow
+- Copy the filename 'sonar-project.properties' and content 'sonar.projectKey=Netflix' as shown
+- Go back to your GitHub repo, click 'Add file' > and 'Create new file'
+- Enter the filename as 'sonar-project.properties' and past this content 'sonar.projectKey=Netflix' inside the file
+- Now we need to create the pipeline workflow. To do that, click 'Add file' > Create new file' again
+- Create the file name as shown .github/workflows/build.yaml -- you can use any name for the .yml file
+- Now copy the content of the build.yml file from SonarQube dashboard and paste it in the newly created GitHub file 'build.yml'
+- Click 'Commit changes' to create the pipeline workflow
+- The workflow will be started automatically
+- Let's click on 'Build' and see what happens. If everything goes well, the build should complete successfully
+- Now go back to SonarQube dashboard and click on 'Project' and select the project 'Netflix'
+- You can see the code scan summary. To view the full report, click on 'issues'
+
+#### Step 3C: Add the trivy file scan in the pipeline workflow file
+- Add the following code to the Build.yml file in GitHub. This will perform the file scanning. Click 'Commit changes'
+  ```
+  - name: run trivy filescan
+    run: |
+      # command to scan the files
+      trivy fs .
+  ```
+-  Go back to 'Actions' and you should see the build has started
+-  Analyse the build and see if the trivy file scan was completed successfully - this is another security check
+- 
+#### Step 4A: Build Docker image and push to DockerHub
+
 #### Step 4B: Create a TMDB API Key (to access the Netflix app)  
 
-#### Step 5A: Create a self-hosted runner in EC2  
+#### Step 5:  Create a self-hosted runner in EC2  
 #### Step 5B: Setup the GitHub Actions pipeline to run the Netflix container  
 #### Step 6:  Delete the EC2 instance (if not free tier to incur any AWScharges)  
 
