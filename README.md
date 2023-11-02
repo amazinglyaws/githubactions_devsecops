@@ -32,7 +32,7 @@ you should be logged into the Ubuntu EC2 server
 - and check the docker installed version using command 
 
 ```
-docker ps
+ docker ps
 ```
 
 ![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/cc54d0ec-03cc-448f-9f86-a9c409fa4c37)
@@ -58,7 +58,7 @@ docker ps
 
 #### Step 2B: Install Trivy for container vulnerability scanning
 
-- On EC2 server, create a trivy.sh file 
+- On EC2 instance, create a trivy.sh file 
 ```
  sudo vi trivy.sh
 ```
@@ -113,12 +113,21 @@ docker ps
 
 #### Step 3B:  Create the GitHub Actions Pipeline workflow
 - Select 'Other' as the Netflix project is built using React JS
-- It generates a sonar properties file and a build.yml file - this is the pipeline workflow
+- It generates a sonar properties file and a build.yml file for the pipeline workflow
 - Copy the filename 'sonar-project.properties' and content 'sonar.projectKey=Netflix' as shown
+  ```
+   sonar-project.properties
+  ```
+  ```
+   sonar.projectKey=Netflix
+  ```
 - Go back to your GitHub repo, click 'Add file' > and 'Create new file'
-- Enter the filename as 'sonar-project.properties' and past this content 'sonar.projectKey=Netflix' inside the file
+- Enter the filename as 'sonar-project.properties' and paste this content 'sonar.projectKey=Netflix' inside the file
 - Now we need to create the pipeline workflow. To do that, click 'Add file' > Create new file' again
-- Create the file name as shown .github/workflows/build.yaml -- you can use any name for the .yml file
+- Create the file name as shown
+  ```
+   .github/workflows/build.yaml # you may use any name for your .yml file
+  ```
 - Now copy the content of the build.yml file from SonarQube dashboard and paste it in the newly created GitHub file 'build.yml'
   ```
     name: Build,Analyze,scan
@@ -126,8 +135,7 @@ docker ps
     on:
       push:
         branches:
-          - main
-    
+          - main    
     
     jobs:
       build-analyze-scan:
