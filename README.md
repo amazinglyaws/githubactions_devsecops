@@ -239,7 +239,7 @@ you should be logged into the Ubuntu EC2 server
 
  - On the GitHub page, click Actions and you should be able to see the new self-hosted runner'aws-netflix' we just created
   ![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/3ec3d4ef-7b5c-4ecb-acdd-0d3c1f69a8a2)
-  
+
 #### Step 6B: Setup the GitHub Actions pipeline to run the Netflix container  
 - Add this deployment section to the Build.yml and click 'Commit changes'
   ```
@@ -258,9 +258,10 @@ you should be logged into the Ubuntu EC2 server
   - Click on 'Build and Push docker image' and wait for the job to complete
   - Now click on 'Summary' to go back to previous page and click 'deploy'
   - You can see the steps where the docker image is pulled from the repo and scanned by Trivy for vulnerabilities
-  - This 'deploy' is running on your EC2 instance using the self-hostd runner
-  - Once the deploy job is completed, you should see this successful message
-  - If both the jobs are successful, you should see oth of them with a green tick symbol against their name
+  - This 'deploy' is running on your EC2 instance using the self-hostd runner 'aws-netflix'
+  - Once the deploy job is completed, you should see this successful message on the EC2 instance 
+    ![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/7686881a-2359-4b9e-8d84-1debe147c8eb)
+  - If both the jobs are successful, you should see both the jobs with a green tick symbol against their name
   - Now copy your EC2 instance public ip and enter as follows in the browser and hit enter
     ```
      <EC2-instance public ip>:8081>
