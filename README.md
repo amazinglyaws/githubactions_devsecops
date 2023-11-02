@@ -29,7 +29,11 @@ you should be logged into the Ubuntu EC2 server
     newgrp docker
     sudo chmod 777 /var/run/docker.sock
   ```
-and check the docker installed version using command docker --version
+and check the docker installed version using command 
+
+```
+docker ps
+```
 
 ![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/cc54d0ec-03cc-448f-9f86-a9c409fa4c37)
 
