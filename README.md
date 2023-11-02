@@ -1,5 +1,5 @@
-# githubactions_devsecops
-Deploy a Netflix clone using GitHub Actions powered by DevSecOps
+
+# Deploy a Netflix clone using GitHub Actions powered by DevSecOps
 
 Tools used : AWS EC2, SonarQube, Trivy, Docker, GitHub and GitHub Actions
 
