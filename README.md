@@ -97,14 +97,18 @@ docker ps
 - Click 'Generate' to generate the token
 - Copy this token and click 'Continue'
 - Go back to GitHub and create this secret
+  ```
    Name: SONAR_TOKEN
    Secret: paste your token
+  ```
 - Click 'Add secret'
-- Go back to SonarQube dasbhoard
+- Go back to SonarQube dashboard
 - Copy the SONAR_HOST_URL and the URL as shown
 - Go back to GitHub and create this secret
+  ```
    Name: SONAR_HOST_URL
    Secret: <URL>
+  ```
 - Two SonarQube secrets are added in GitHub to complete the integration with GitHub. Click 'Continue'
 
 #### Step 3B:  Create the GitHub Actions Pipeline workflow
@@ -174,11 +178,15 @@ docker ps
 - Copy and past the generated token into a text file. Click 'Copy and Close'
 - Now go to GitHub and click 'Settings'. On the left pane, select 'Secrets and variables' > Actions
 - Click 'New repository secret' and create the first secret as shown by clicking 'Add secret'
+  ```
    Name: DOCKERHUB_USERNAME 
    Secret: enter your dockerhub username
+  ```
 - Create one more secret as shown
-   Name: DOCKERHUB_TOKEN
-   Secret: Copy and paste the GitHub token from the text file
+   ```
+    Name: DOCKERHUB_TOKEN
+    Secret: Copy and paste the GitHub token from the text file
+   ```
 - Click 'Add secret'
 
 #### Step 5B: Setup the dockerbuild commands in the Build.yml pipeline workflow
