@@ -268,7 +268,7 @@ you should be logged into the Ubuntu EC2 server
     ```
   - You will see the netflix app running!
   ![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/af6f4c44-cbc2-44b2-be7f-671fed2942a5)
-  
+
   - Deployment is completed!! Congratulations
 
   - Complete Build.yml file
@@ -302,14 +302,14 @@ you should be logged into the Ubuntu EC2 server
                      #sudo apt-get install wget apt-transport-https gnupg lsb-release -y
                      #wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | gpg --dearmor | sudo tee /usr/share/keyrings/trivy.gpg > /dev/null
                      #echo "deb [signed-by=/usr/share/keyrings/trivy.gpg] https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main" | sudo tee -a /etc/apt/sources.list.d/trivy.list
-                     #sudo apt-get update
-                     #sudo apt-get install trivy -y
+                     sudo apt-get update
+                     sudo apt-get install trivy -y
                      #scanning files
                      trivy fs .
           
                 - name: Docker build and push
                   run: |
-                    #run commands to build and push docker images
+                    #run commands to build and push docker image
                     docker build --build-arg TMDB_V3_API_KEY=ea34e7857cff3d57b70166e938d9cbf9 -t netflix .
                     docker tag netflix sunilsnair1976/netflix:latest
                     docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
@@ -329,5 +329,22 @@ you should be logged into the Ubuntu EC2 server
                   run: docker run -d --name netflix -p 8081:80 sunilsnair1976/netflix:latest
         ```
 #### Step 7:  Delete the EC2 instance 
+- Clean up opportunity : When the pipeline workflow is invoked the second time the following 'deploy' step will fail. This is because the 'netflix' container already exist. 
+
+run: docker run -d --name netflix -p 8081:80 sunilsnair1976/netflix:latest 
+
+There are two solutions to this:
+a) add a logic in the 'build' job to append the commit id to the container name. eg: <netflix_commitid>
+b) create a shell (.sh) script that includes the commands to stop and remove the 'netflix' container. The self-host runner will needs be run again.
+```
+ docker stop netflix
+ docker rm netflix
+ ./run.sh
+```
+
+
+
+
+#### Step 8:  Delete the EC2 instance 
 - Go to AWS console and delete the EC2 instance to avoid any billing charges
 
