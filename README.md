@@ -328,7 +328,7 @@ you should be logged into the Ubuntu EC2 server
                 - name: Run the container netflix
                   run: docker run -d --name netflix -p 8081:80 sunilsnair1976/netflix:latest
         ```
-#### Step 7:  Delete the EC2 instance 
+#### Step 7:  'Deploy' job failure
 - Clean up opportunity : When the pipeline workflow is invoked the second time the following 'deploy' step will fail. This is because the 'netflix' container already exist. 
 
 run: docker run -d --name netflix -p 8081:80 sunilsnair1976/netflix:latest 
