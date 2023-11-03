@@ -334,8 +334,8 @@ you should be logged into the Ubuntu EC2 server
 run: docker run -d --name netflix -p 8081:80 sunilsnair1976/netflix:latest 
 
 There are two solutions to this:
-a) add a logic in the 'build' job to append the commit id to the container name. eg: <netflix_commitid>
-b) create a shell (.sh) script that includes the commands to stop and remove the 'netflix' container. The self-host runner will needs be run again.
+- a) add a logic in the 'build' job to append the commit id to the container name. eg: <netflix_commitid>
+- b) create a shell (.sh) script that includes the commands to stop and remove the 'netflix' container. The self-host runner will needs be run again.
 ```
  docker stop netflix
  docker rm netflix
