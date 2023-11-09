@@ -1,3 +1,14 @@
+
+# Deploy a Netflix clone using GitHub Actions powered by DevSecOps
+
+Tools used : AWS EC2, SonarQube, Trivy, Docker, GitHub and GitHub Actions
+
+## High Level Architecture
+<img width="675" alt="image" src="https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/7a2c8df6-15cf-43a1-bf25-e54700f5a21b">
+
+
+## Steps
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
@@ -21,14 +32,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Deploy a Netflix clone using GitHub Actions powered by DevSecOps
 
-Tools used : AWS EC2, SonarQube, Trivy, Docker, GitHub and GitHub Actions
-
-## High Level Architecture
-<img width="675" alt="image" src="https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/7a2c8df6-15cf-43a1-bf25-e54700f5a21b">
-
-## Steps
 #### Step 1:  Launch an EC2 instance (T2 micro Ubuntu Amazon AMI) 
 ![image](https://github.com/amazinglyaws/githubactions_devsecops/assets/133778900/d0b3464d-4e3a-4a4c-869a-a2992b58d9d2)
 
