@@ -1,3 +1,25 @@
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
+
+- [Deploy a Netflix clone using GitHub Actions powered by DevSecOps tools](#deploy-a-netflix-clone-using-github-actions-powered-by-devsecops)
+  - [High Level Architecture](#high-level-architecture)
+  - [Steps](#steps)
+      - [Step 1:  Launch and EC2 instance (T2 micro Ubuntu Amazon AMI)](#step-1--launch-and-ec2-instance-t2-micro-ubuntu-amazon-ami)
+      - [Step 2A: Install Docker and run SonarQube container inside EC2](#step-2a-install-docker-and-run-sonarqube-container-inside-ec2)
+      - [Step 2B: Install Trivy for container vulnerability scanning](#step-2b-install-trivy-for-container-vulnerability-scanning)
+      - [Step 3A:  Integrate SonarQube with GitHub Actions](#step-3a--integrate-sonarqube-with-github-actions)
+      - [Step 3B:  Create the GitHub Actions Pipeline workflow](#step-3b--create-the-github-actions-pipeline-workflow)
+      - [Step 3C: Add the trivy file scan in the pipeline workflow file](#step-3c-add-the-trivy-file-scan-in-the-pipeline-workflow-file)
+      - [Step 4: Create a TMDB API Key (to access the Netflix app)](#step-4-create-a-tmdb-api-key-to-access-the-netflix-app)
+      - [Step 5A: Setup the DockerHub Token](#step-5a-setup-the-dockerhub-token)
+      - [Step 5B: Setup the dockerbuild commands in the Build.yml pipeline workflow](#step-5b-setup-the-dockerbuild-commands-in-the-buildyml-pipeline-workflow)
+      - [Step 6A: Create a self-hosted runner in EC2](#step-6a-create-a-self-hosted-runner-in-ec2)
+      - [Step 6B: Setup the GitHub Actions pipeline to run the Netflix container](#step-6b-setup-the-github-actions-pipeline-to-run-the-netflix-container)
+      - [Step 7:  'Deploy' job failure](#step-7--deploy-job-failure)
+      - [Step 8:  Delete the EC2 instance](#step-8--delete-the-ec2-instance)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Deploy a Netflix clone using GitHub Actions powered by DevSecOps
 
