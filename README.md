@@ -20,7 +20,7 @@ Tools used : AWS EC2, SonarQube, Trivy, Docker, GitHub and GitHub Actions
       - [Step 2A: Install Docker and run SonarQube container inside EC2](#step-2a-install-docker-and-run-sonarqube-container-inside-ec2)
       - [Step 2B: Install Trivy for container vulnerability scanning](#step-2b-install-trivy-for-container-vulnerability-scanning)
       - [Step 3A:  Integrate SonarQube with GitHub Actions](#step-3a--integrate-sonarqube-with-github-actions)
-      - [Step 3B:  Create the GitHub Actions Pipeline workflow](#step-3b--create-the-github-actions-pipeline-workflow)
+      - [Step 3B:  Create the GitHub Actions Pipeline Build.yml workflow](#step-3b--create-the-github-actions-pipeline-workflow)
       - [Step 3C: Add the trivy file scan in the pipeline workflow file](#step-3c-add-the-trivy-file-scan-in-the-pipeline-workflow-file)
       - [Step 4: Create a TMDB API Key (to access the Netflix app)](#step-4-create-a-tmdb-api-key-to-access-the-netflix-app)
       - [Step 5A: Setup the DockerHub Token](#step-5a-setup-the-dockerhub-token)
@@ -137,7 +137,7 @@ you should be logged into the Ubuntu EC2 server
   ```
 - Two SonarQube secrets are added in GitHub to complete the integration with GitHub. Click 'Continue'
 
-#### Step 3B:  Create the GitHub Actions Pipeline workflow
+#### Step 3B:  Create the GitHub Actions Pipeline Build.yml workflow
 - Select 'Other' as the Netflix project is built using React JS
 - It generates a sonar properties file and a build.yml file for the pipeline workflow
 - Copy the filename 'sonar-project.properties' and content 'sonar.projectKey=Netflix' as shown
